@@ -1,0 +1,20 @@
+kind: pipeline
+type: docker
+name: deploy
+
+steps:
+  - name: Build da Imagem Docker
+    image: docker:latest
+    commands:
+      - docker build -t low-code:latest .
+
+  #- name: Redeploy
+  #  image: docker:latest
+  #  commands:
+  #    - docker service update --force --image fabrica:latest app_fabrica
+
+  - name: Subir Serviço no Docker Swarm
+    image: docker:latest
+    commands:
+      - docker service rm app_low-code || true
+      - docker stack deploy -c Docker-compose.yml app
