@@ -6,7 +6,7 @@ steps:
   - name: Build da Imagem Docker
     image: docker:latest
     commands:
-      - docker build -t low-code:latest .
+      - docker build -t teste_deploy:latest .
 
   #- name: Redeploy
   #  image: docker:latest
@@ -16,5 +16,5 @@ steps:
   - name: Subir Serviço no Docker Swarm
     image: docker:latest
     commands:
-      - docker service rm app_low-code || true
+      - docker service rm app_teste_deploy || true
       - docker stack deploy -c Docker-compose.yml app
