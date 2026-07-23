@@ -10,10 +10,5 @@ services:
       mode: replicated
       # Quantas instâncias você quer rodando em paralelo
       replicas: 3 
-      placement:
-        constraints:
-          # Define em quais nós (servidores) os containers podem rodar.
-          # Você pode usar:
-          # - node.role == worker  (Roda apenas nos workers)
-          # - node.role == manager (Roda apenas nos managers)
-          - node.role == worker
+      # Sem restrições de 'placement', o Swarm é livre para espalhar
+      # os containers em TODOS os servidores disponíveis (managers e workers).
