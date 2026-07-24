@@ -10,10 +10,10 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     commands:
-      - docker stack deploy -c Docker-compose.yml app --with-registry-auth
-      # Força o serviço a baixar a imagem mais recente do registry e reiniciar as réplicas
-      - docker service update --force --image repositorio-imagem.akrbrands.com.br/teste_deploy:latest app_teste_deploy
-
+      # 1. Faz o build já "carimbando" a imagem com o endereço do registry
+      - docker build -t repositorio-imagem.akrbrands.com.br/teste_deploy:latest .
+      # 2. Envia a imagem para o registry local do Swarm
+      - docker push repositorio-imagem.akrbrands.com.br/teste_deploy:latest
 
   - name: Subir Serviço no Docker Swarm
     image: docker:latest
@@ -21,6 +21,7 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     commands:
-      # Não é recomendado remover o serviço (rm) antes do deploy em produção, 
-      # pois causa indisponibilidade. O stack deploy já atualiza a imagem automaticamente!
+      # 1. O stack deploy garante que o serviço e redes existam
       - docker stack deploy -c Docker-compose.yml app --with-registry-auth
+      # 2. O service update FORÇA todas as instâncias a baixarem a imagem 'latest' novamente
+      - docker service update --force --with-registry-auth --image repositorio-imagem.akrbrands.com.br/teste_deploy:latest app_teste_deploy
