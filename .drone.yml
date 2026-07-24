@@ -2,19 +2,30 @@ kind: pipeline
 type: docker
 name: deploy
 
-steps:
-  - name: Build da Imagem Docker
-    image: docker:latest
-    commands:
-      - docker build -t teste_deploy:latest .
+# Importante: O Drone precisa de acesso ao Docker do host para rodar comandos docker
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
 
-  #- name: Redeploy
-  #  image: docker:latest
-  #  commands:
-  #    - docker service update --force --image fabrica:latest app_fabrica
+steps:
+  - name: Build e Push da Imagem Docker
+    image: docker:latest
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
+      # 1. Faz o build já "carimbando" a imagem com o endereço do registry
+      - docker build -t 127.0.0.1:5000/teste_deploy:latest .
+      # 2. Envia a imagem para o registry local do Swarm
+      - docker push 127.0.0.1:5000/teste_deploy:latest
 
   - name: Subir Serviço no Docker Swarm
     image: docker:latest
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
     commands:
-      - docker service rm app_teste_deploy || true
-      - docker stack deploy -c Docker-compose.yml app
+      # Não é recomendado remover o serviço (rm) antes do deploy em produção, 
+      # pois causa indisponibilidade. O stack deploy já atualiza a imagem automaticamente!
+      - docker stack deploy -c Docker-compose.yml app --with-registry-auth
