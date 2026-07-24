@@ -10,10 +10,10 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     commands:
-      # 1. Faz o build já "carimbando" a imagem com o endereço do registry
-      - docker build -t repositorio-imagem.akrbrands.com.br/teste_deploy:latest .
-      # 2. Envia a imagem para o registry local do Swarm
-      - docker push repositorio-imagem.akrbrands.com.br/teste_deploy:latest
+      - docker stack deploy -c Docker-compose.yml app --with-registry-auth
+      # Força o serviço a baixar a imagem mais recente do registry e reiniciar as réplicas
+      - docker service update --force --image repositorio-imagem.akrbrands.com.br/teste_deploy:latest app_teste_deploy
+
 
   - name: Subir Serviço no Docker Swarm
     image: docker:latest
