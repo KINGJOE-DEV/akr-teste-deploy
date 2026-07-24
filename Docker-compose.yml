@@ -2,8 +2,9 @@ version: '3.8'
 
 services:
   teste_deploy:
-    # No Docker Swarm, a imagem já deve estar construída (o seu .drone.yml já faz o build com esta tag)
-    image: teste_deploy:latest
+    # A imagem agora aponta para o seu registry privado, 
+    # permitindo que os workers consigam baixá-la via rede!
+    image: 192.168.0.11:5021/teste_deploy:latest
     ports:
       - "80:80"
     deploy:
