@@ -11,9 +11,9 @@ steps:
         path: /var/run/docker.sock
     commands:
       # 1. Faz o build já "carimbando" a imagem com o endereço do registry
-      - docker build -t 127.0.0.1:5021/teste_deploy:latest .
+      - docker build -t 192.168.0.11:5021/teste_deploy:latest .
       # 2. Envia a imagem para o registry local do Swarm
-      - docker push 127.0.0.1:5021/teste_deploy:latest
+      - docker push 192.168.0.11:5021/teste_deploy:latest
 
   - name: Subir Serviço no Docker Swarm
     image: docker:latest
