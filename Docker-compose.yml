@@ -4,7 +4,7 @@ services:
   teste_deploy:
     # A imagem agora aponta para o seu registry privado, 
     # permitindo que os workers consigam baixá-la via rede!
-    image: 192.168.0.11:5021/teste_deploy:latest
+    image: repositorio-imagem.akrbrands.com.br/teste_deploy:latest
     ports:
       - "80:80"
     deploy:
