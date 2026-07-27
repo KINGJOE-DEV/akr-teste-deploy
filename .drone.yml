@@ -11,11 +11,11 @@ steps:
         path: /var/run/docker.sock
     commands:
       # Fazendo login no Zot Registry antes de dar build/push
-      - docker login deploy.akrbrands.com.br -u "administrador" -p "hazel@@1954"
+      - docker login repositorio-imagem.akrbrands.com.br -u "administrador" -p "hazel@@1954"
       # 1. Faz o build já "carimbando" a imagem com o endereço do registry
-      - docker build -t deploy.akrbrands.com.br/teste_deploy:latest .
+      - docker build -t repositorio-imagem.akrbrands.com.br/teste_deploy:latest .
       # 2. Envia a imagem para o registry local do Swarm
-      - docker push deploy.akrbrands.com.br/teste_deploy:latest
+      - docker push repositorio-imagem.akrbrands.com.br/teste_deploy:latest
 
   - name: Subir Serviço no Docker Swarm
     image: docker:latest
@@ -24,9 +24,9 @@ steps:
         path: /var/run/docker.sock
     commands:
       # Faz o login novamente no node do swarm para ter as credenciais do registry
-      - docker login deploy.akrbrands.com.br -u "administrador" -p "hazel@@1954"
+      - docker login repositorio-imagem-imagem.akrbrands.com.br -u "administrador" -p "hazel@@1954"
       # 1. O stack deploy garante que o serviço e redes existam. 
       # O --detach=false força o comando a só terminar quando o deploy no Swarm estiver 100% completo e estável.
       - docker stack deploy -c Docker-compose.yml app --with-registry-auth --detach=false
       # 2. O service update FORÇA todas as instâncias a baixarem a imagem 'latest' novamente (se ainda for necessário)
-      - docker service update --force --with-registry-auth --image deploy.akrbrands.com.br/teste_deploy:latest app_teste_deploy
+      - docker service update --force --with-registry-auth --image repositorio-imagem.akrbrands.com.br/teste_deploy:latest app_teste_deploy
