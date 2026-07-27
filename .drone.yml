@@ -24,7 +24,7 @@ steps:
         path: /var/run/docker.sock
     commands:
       # Faz o login novamente no node do swarm para ter as credenciais do registry
-      - docker login repositorio-imagem-imagem.akrbrands.com.br -u "administrador" -p "hazel@@1954"
+      - docker login repositorio-imagem.akrbrands.com.br -u "administrador" -p "hazel@@1954"
       # 1. O stack deploy garante que o serviço e redes existam. 
       # O --detach=false força o comando a só terminar quando o deploy no Swarm estiver 100% completo e estável.
       - docker stack deploy -c Docker-compose.yml app --with-registry-auth --detach=false
