@@ -23,5 +23,7 @@ steps:
     commands:
       # 1. O stack deploy garante que o serviço e redes existam
       - docker stack deploy -c Docker-compose.yml app --with-registry-auth
+      # Pausa para garantir que o Swarm processe a criação/atualização antes de forçar o update
+      - sleep 20
       # 2. O service update FORÇA todas as instâncias a baixarem a imagem 'latest' novamente
       - docker service update --force --with-registry-auth --image repositorio-imagem.akrbrands.com.br/teste_deploy:latest app_teste_deploy
