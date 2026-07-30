@@ -15,7 +15,7 @@ services:
       placement:
         constraints:
           - node.labels.srv_fabrica == true
-
+        max_replicas_per_node: 1
 networks:
   agent_network:
     external: true
