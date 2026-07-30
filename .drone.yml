@@ -9,11 +9,11 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     commands:
-      - docker login 192.168.0.11:5025 -u "administrador" -p "hazel@@1954"
+      - docker login100.96.0.4:5025 -u "administrador" -p "hazel@@1954"
       # 1. Faz o build já "carimbando" a imagem com o endereço do registry
-      - docker build -t 192.168.0.11:5025/teste_deploy:latest .
+      - docker build -t100.96.0.4:5025/teste_deploy:latest .
       # 2. Envia a imagem para o registry local do Swarm
-      - docker push 192.168.0.11:5025/teste_deploy:latest
+      - docker push100.96.0.4:5025/teste_deploy:latest
 
   - name: Subir Serviço no Docker Swarm
     image: docker:latest
@@ -22,9 +22,9 @@ steps:
         path: /var/run/docker.sock
     commands:
       # Fazendo login no Zot Registry antes de dar build/push
-      - docker login  192.168.0.11:5025 -u "administrador" -p "hazel@@1954"
+      - docker login 100.96.0.4:5025 -u "administrador" -p "hazel@@1954"
       # 1. O stack deploy garante que o serviço e redes existam
       - docker stack deploy -c Docker-compose.yml app_teste --with-registry-auth --detach=false
       # 2. O service update FORÇA todas as instâncias a baixarem a imagem 'latest' novamente
-      - docker service update --force --with-registry-auth --image  192.168.0.11:5025/teste_deploy:latest app_teste_deploy
+      - docker service update --force --with-registry-auth --image 100.96.0.4:5025/teste_deploy:latest app_teste_deploy
 

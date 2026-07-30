@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   deploy:
-    image: 192.168.0.11:5025/teste_deploy:latest
+    image:100.96.0.4:5025/teste_deploy:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
