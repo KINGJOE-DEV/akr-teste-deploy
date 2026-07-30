@@ -8,4 +8,8 @@ services:
     ports:
       - "80:80"
     deploy:
-      mode: global
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.srv_fabrica == true
