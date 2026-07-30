@@ -14,7 +14,7 @@ services:
       replicas: 2
       placement:
         constraints:
-          - node.labels.roda_site == true
+          - node.labels.srv_fabrica == true
 
 networks:
   agent_network:
