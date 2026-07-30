@@ -13,7 +13,30 @@ services:
       mode: replicated
       replicas: 2
       placement:
-        constraints: - node.labels.srv_fabrica == true
+        # Subir no grupo de maquinas da fabrica
+        constraints: 
+          - node.labels.srv_fabrica == true
+
+        # Subir no grupo de maquinas da fabrica e nuvem
+        #constraints: 
+        #  - node.labels.srv_alta_disponibilidade == true
+
+        # Só subir uma instancia por maquina
+        #constraints: 
+        #  - node.hostname == srvaplicacoesinternas
+
+        # Subir em todos os workers
+        #constraints: 
+        #  - node.role == worker
+
+        # Só subir no manager
+        #constraints: 
+        #  - node.role == manager
+          
+        # Só subir no global
+        #constraints: 
+        #  - node.role == global
+
         max_replicas_per_node: 1
 
 
