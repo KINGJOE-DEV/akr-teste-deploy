@@ -11,10 +11,11 @@ services:
       - agent_network
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 2
       placement:
         constraints:
-          - node.labels.srv_fabrica == true
+          - node.labels.roda_site == true
+        max_replicas_per_node: 1
 
 networks:
   agent_network:
