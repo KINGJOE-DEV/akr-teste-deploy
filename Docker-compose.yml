@@ -15,7 +15,6 @@ services:
       placement:
         constraints:
           - node.labels.roda_site == true
-        max_replicas_per_node: 1
 
 networks:
   agent_network:
