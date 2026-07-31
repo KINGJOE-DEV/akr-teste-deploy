@@ -12,7 +12,7 @@ steps:
       - docker login 100.96.0.4:5021 -u "administrador" -p "hazel@@1954"
       
       # 1. Faz o build desativando os metadados OCI (provenance) para evitar o erro de manifest invalid
-      - docker build --no-cache --provenance=false -t 100.96.0.4:5021/teste_deploy:latest .
+      - docker build -t 100.96.0.4:5021/teste_deploy:latest .
       
       # 2. Envia a imagem para o registry local do Swarm
       - docker push 100.96.0.4:5021/teste_deploy:latest
